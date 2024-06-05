@@ -2,6 +2,7 @@ from flask import Flask,redirect,render_template,request
 from werkzeug.security import generate_password_hash,check_password_hash
 import psycopg2 
 from pgfunc import adduser
+import bcrypt
 
 
 
@@ -28,6 +29,21 @@ def home():
 #         print(password)
 #         print(email)
 #     return redirect("/")
+
+
+# @app.route("/signup", methods=["POST", "GET"])
+# def signup():
+#     if request.method == 'POST':
+#         fullname = request.form['fullname']
+#         email = request.form['email']
+#         password = request.form['password']    # Hash the password
+        
+#         if adduser(fullname, email, password):
+#             print(f"User {fullname} added successfully.")
+#         else:
+#             print(f"Failed to add user {fullname}.")
+        
+#         return redirect("/")
 
 
 @app.route("/signup", methods=["POST", "GET"])
