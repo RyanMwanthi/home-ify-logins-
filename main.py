@@ -1,7 +1,7 @@
 from flask import Flask,redirect,render_template,request
 from werkzeug.security import generate_password_hash,check_password_hash
 import psycopg2 
-from pgfunc import adduser
+from pgfunc import adduser , login_user , verify_password , hash_password ,get_db_connection
 import bcrypt
 
 
@@ -59,6 +59,24 @@ def signup():
             print(f"Failed to add user {fullname}.")
         
         return redirect("/")
+    
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        users = login_user()
+        if not users:
+            return "Error connecting to the database or fetching users"
+        
+        for user_email, user_password in users:
+            if email == user_email and verify_password(user_password, password):
+                return "Login successful"
+        return "Invalid email or password"
+    
+    return render_template("dummylanding.html")
+   
 
 
 
