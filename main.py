@@ -1,4 +1,4 @@
-from flask import Flask,redirect,render_template,request
+from flask import Flask,redirect,render_template,request , url_for
 from werkzeug.security import generate_password_hash,check_password_hash
 import psycopg2 
 from pgfunc import adduser , login_user , verify_password , hash_password ,get_db_connection
@@ -16,6 +16,11 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return render_template("forms.html")
+
+
+@app.route("/landing")
+def landing():
+    return render_template("landing.html")
 
 # @app.route("/signup" , methods=["POST","GET"])
 # def adduser():
@@ -72,10 +77,10 @@ def login():
         
         for user_email, user_password in users:
             if email == user_email and verify_password(user_password, password):
-                return "Login successful"
+                return redirect(url_for('landing'))
         return "Invalid email or password"
     
-    return render_template("dummylanding.html")
+    # return render_template("dummylanding.html")
    
 
 
